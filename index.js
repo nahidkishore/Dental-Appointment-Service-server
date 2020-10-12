@@ -75,35 +75,35 @@ client.connect((err) => {
     const email = req.body.email;
 
     // console.log(file, name, email);
-    const filePath =`${__dirname}/doctors/${file.name}`
-    file.mv(filePath,err => {
+   /*  const filePath =`${__dirname}/doctors/${file.name}` */
+ /*    file.mv(filePath,err => {
       if(err){
         console.log(err);
          res.status(500).send({msg: 'failed to upload'})
-      }
+      } */
 
-      const newImg=fs.readFileSync(filePath);
+      const newImg=file.data;
       const encImg = newImg.toString("base64");
 
       var image = {
-        contentType: req.files.file.mimetype,
-        size: req.files.file.size,
+        contentType: file.mimetype,
+        size:file.size,
         img: Buffer.from(encImg, "base64"),
       };
   
 
       doctorCollection.insertOne({name,email,image})
       .then((result) => {
-        fs.remove(filePath,error=>{
+       /*  fs.remove(filePath,error=>{
           if(error){
             console.log(error);
             res.status(500).send({msg: 'failed to upload'})
-          }
-        })
+          } */
+        //})
         res.send(result.insertedCount > 0);
       });
 
-    })
+    //})
   });
  
 
